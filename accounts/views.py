@@ -5,12 +5,26 @@ from django.views.generic import CreateView
 from .form import PatientSignUpForm, DoctorSignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from .models import User
+from django.shortcuts import get_object_or_404
+from django.views import generic
+from django.urls import reverse
+from django.http import Http404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
+from .models import Doctor,Patient,Appointment
+
 
 def index(request):
     return render(request, '../templates/index.html')
 
 def register(request):
     return render(request, '../templates/register.html')
+
+def view_patient_history(request):
+    patients_list = Doctor.objects.all()
+    context_obj={'patients_list': patients_list}
+    return render(request, '../templates/patient_history.html', context_obj)
+
 
 class patient_register(CreateView):
     model = User
@@ -20,7 +34,7 @@ class patient_register(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('/')
+        return redirect('/appointments/')
 
 
 class doctor_register(CreateView):
@@ -55,3 +69,5 @@ def login_request(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+

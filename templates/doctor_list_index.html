@@ -1,0 +1,30 @@
+{% block Title %}<h1>Doctor appointment</h1>{% endblock %}
+
+{% block BodyContent %}
+<body>
+<h2>Doctors List</h2>
+
+        {% if doctors_list %}
+                {% for spec in specialization_list %}
+
+                        <p>{{ spec.speciality }}</p>
+                        <ul>
+                        {% for doctor in doctors_list %}
+                            {% if spec.speciality == doctor.speciality %}
+                                <li><a href="{% url 'doctor_detail' doctor.pk %}">{{ doctor.get_full_name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+
+                {% endfor %}
+        {% else %}
+            <h1>There's no Doctor</h1>
+        {% endif %}
+
+    </body>
+
+{% endblock %}
+
+
+
+

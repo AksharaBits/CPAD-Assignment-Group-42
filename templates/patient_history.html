@@ -1,0 +1,20 @@
+{% block Title %}<h1>View Patient History</h1>{% endblock %}
+
+{% block BodyContent %}
+<body>
+        {% if patients_list %}
+                <ul>
+                    {% for patient in patients_list %}
+                   <li>{{ patient.get_full_name }} </li>
+                    <p>{{patient.get_history}}</p>
+                       {% endfor %}
+                        </ul>
+
+
+        {% else %}
+            <h1>There are no Patients</h1>
+        {% endif %}
+
+    </body>
+
+{% endblock %}

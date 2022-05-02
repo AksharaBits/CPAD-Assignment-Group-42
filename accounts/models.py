@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import datetime
 
 Time_slots=['9 am to 10 am', '10 am to 11 am', '11 am to 12 pm', '2pm to 3pm', '4 pm to 5 pm', '7 pm to 8 pm']
 
@@ -31,6 +32,16 @@ class Patient(models.Model):
     def __str__(self):
         return self.name
 
+    def get_full_name(self):
+        return '%s ' % self.name
+
+    def get_history(self):
+        return '%s : %s' % (self.date, self.details)
+
+    def get_absolute_url(self):
+        # return f'/{self.pk}'
+        return '/%i' % self.pk
+
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
@@ -42,6 +53,13 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_full_name(self):
+        return '%s ' % self.name
+
+    def get_absolute_url(self):
+        # return f'/{self.pk}'
+        return '/%i' % self.pk
 
 
 class DocAvailability(models.Model):
@@ -58,6 +76,15 @@ class Appointment(models.Model):
     Time_slot=models.CharField(max_length=15)
     is_booked=models.BooleanField(default=False)
     #Timing=models.DateTimeField(default=timezone.now())
+
+    def is_outdated(self):
+        """
+            True if this appointment is outdated.
+            False if appointment is still fresh.
+            :return: Boolean
+        """
+        today = timezone.now()
+        return self.date <= today
 
 
 @receiver(post_save, sender=Appointment)
