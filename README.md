@@ -1,4 +1,6 @@
-# CPAD-Assignment-Group-42
+# Health Buddy app
+Tech stack used:
+Django framework with python, HTML for frontend, sqlite Database
 
 To run the project:
 1. Clone the repository
