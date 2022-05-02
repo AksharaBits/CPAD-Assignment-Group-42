@@ -50,6 +50,9 @@ class Doctor(models.Model):
     location = models.CharField(max_length=15,default='Bangalore')
     speciality=models.CharField(max_length=20,default='General medicine')
     years_of_exp=models.IntegerField(default=1)
+    avail_slots = dict.fromkeys(Time_slots)
+    for i in avail_slots:
+        avail_slots[i] = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -61,13 +64,13 @@ class Doctor(models.Model):
         # return f'/{self.pk}'
         return '/%i' % self.pk
 
-
+'''
 class DocAvailability(models.Model):
     doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     slots=dict.fromkeys(Time_slots)
     for i in slots:
         slots[i]=models.BooleanField(default=True)
-
+'''
 
 class Appointment(models.Model):
     patient=models.ForeignKey(Patient,on_delete=models.CASCADE)
@@ -91,4 +94,4 @@ class Appointment(models.Model):
 def my_handler(sender, instance, **kwargs):
     slot_booked=instance.Time_slot
     doctor=instance.doctor
-    DocAvailability(doctor).slots[slot_booked]=False
+    doctor.avail_slots[slot_booked]=False

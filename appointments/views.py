@@ -18,6 +18,13 @@ class DoctorDetailView(generic.DetailView):
     template_name = '../templates/doctor_detail.html'
     context_object_name = 'doctor'
 
+'''
+def book_app(request):
+    doc_avail=DocAvailability.objects.all()
+    doctor=Doctor.objects.all()
+    context_obj={'doc availability': doc_avail, 'doctor': doctor}
+    return render(request, '../templates/doctor_detail.html', context_obj)
+'''
 
 class IndexView(generic.ListView):
     model = Doctor

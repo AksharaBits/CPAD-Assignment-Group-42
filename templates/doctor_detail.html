@@ -1,18 +1,36 @@
-{% block Title %}{{ doctor.get_full_name }}{% endblock %}
+   <style>
+.button1 {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
 
-{% block HeaderTitle %}
-    <a href="{% url 'index' %}">To main</a>
-{% endblock %}
+.button2 {background-color: #e7e7e7; color: black;padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;} /* Gray */
 
-{% block BodyContent %}
-    <div class="doctor_detail">
-        <h1>{{ doctor.name }}</h1>
+</style>
+    <h1>Book Appointment</h1>
+        <h2>Doctor name: {{ doctor.name }}</h2>
         <h4>{{ doctor.speciality }}</h4>
 
-        <div class="doctor_detail_info">
-            {{ doctor.info }}
-        </div>
-    </div>
-
-    <a href="{% url 'doctor_appoints' doctor.pk %}" class="btn btn-warning" role="button">Book appointment</a>
-{% endblock %}
+    <body>
+    {% for key, value in doctor.avail_slots.items %}
+        {% if value %}
+            <button class="button1">{{key}}</button>
+        {% else %}
+            <button class="button2">{{key}}</button>
+    {% endif %}
+{% endfor %}
+</body>
